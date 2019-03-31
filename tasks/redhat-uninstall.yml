@@ -7,8 +7,9 @@
   - reboot_after_install
 
 - name: stop the service
-  notify: 
-    - stop the service
+  debug:
+    msg: "stop service"
+  notify: stop the service
   ignore_errors: True
   become: yes
 

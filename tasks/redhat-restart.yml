@@ -1,4 +1,5 @@
 # restarting nvserver services
 - name: Restart nvserver service
-  notify:
-    - restart the service
+  debug:
+    msg: "restart service"
+  notify: restart the service

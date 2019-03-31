@@ -51,8 +51,9 @@
 # stop old service
 
 - name: stop the old service
-  notify:
-    - stop the service
+  debug:
+    msg: "stop old service"
+  notify: stop the service
   ignore_errors: True
   become: yes
 
@@ -82,8 +83,7 @@
 - name: run the installer
   command: "sh {{ temp_folder }}/{{ installer_file_name }} -q"
   become: yes
-  notify:
-    - start the service
+  notify: start the service
 
 # configure after installation
 
@@ -98,8 +98,7 @@
       value: "true"
       
   become: yes
-  notify:
-    - restart the service
+  notify: restart the service
 
 # clear temp files (optional)
 
@@ -129,8 +128,9 @@
 
 # reboot the instance after install (optional)
 - name: reboot instance
-  notify:
-    - reboot nvserver instance
+  debug:
+    msg: "reboot instance"
+  notify: reboot nvserver instance
   become: yes
   when: reboot_after_install == True
 
