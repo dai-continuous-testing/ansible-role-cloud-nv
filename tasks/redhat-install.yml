@@ -69,14 +69,20 @@
   when: clear_before_install == True
 
 # need to check  whether needed backup or not (optional)
-- name: check if folder exists
-  stat:
-    path: "{{ installation_folder }}"
-  register: folder_info
 
-- name: move old version - for backup
-  command: "mv {{ installation_folder }} {{ installation_folder }}-{{ ansible_date_time.epoch }}"
-  when: folder_info.stat.isdir is defined and folder_info.stat.isdir and backup_old_installation == True
+- name: backup old installation
+  block:
+  
+    - name: check if folder exists
+      stat:
+        path: "{{ installation_folder }}"
+      register: folder_info
+
+    - name: move old version - for backup
+      command: "mv {{ installation_folder }} {{ installation_folder }}-{{ ansible_date_time.epoch }}"
+      when: folder_info.stat.isdir is defined and folder_info.stat.isdir
+
+  when: backup_old_installation == True
 
 # copy varfile and run the installer
 
