@@ -24,7 +24,9 @@ Role Variables
 | reboot_after_install | should instance reboot after installation is completed | boolean | True | no |
 | clear_temp_folder | remove temp folder after installation | boolean | False | no |
 | clear_before_install | removing old installation before installing new version | boolean | False | no |
-
+| backup_old_installation | take backup old installation before install | boolean | False | no |
+| uplink_eth | can provide ethernet name for uplink | string | Auto | no |
+| wifi_eth | can provide ethernet name for wifi | string | Auto | no |
 
 Example Playbook
 ----------------
