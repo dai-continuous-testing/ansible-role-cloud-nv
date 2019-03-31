@@ -4,14 +4,14 @@
   include_vars: 
     file: "{{ ansible_os_family | lower }}.yml"
 
-- name: install cloud agent
+- name: install cloud nv
   include_tasks: "tasks/{{ ansible_os_family | lower }}-install.yml"
   when: state|default('present') == 'present'
 
-- name: uninstall cloud agent
+- name: uninstall cloud nv
   include_tasks: "tasks/{{ ansible_os_family | lower }}-uninstall.yml"
   when: state|default('present') == 'absent'
 
-- name: uninstall cloud agent
+- name: uninstall cloud nv
   include_tasks: "tasks/{{ ansible_os_family | lower }}-restart.yml"
   when: state|default('present') == 'restart'
