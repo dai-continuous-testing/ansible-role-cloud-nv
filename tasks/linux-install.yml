@@ -1,0 +1,136 @@
+
+# validation
+
+- name: assert all vars are set
+  assert: { that: "{{ item }} != '' " }
+  with_items:
+  - uplink_eth
+  - wifi_eth
+  - app_name
+  - temp_folder
+  - clear_temp_folder
+  - service_name
+  - main_class
+  - installation_folder
+  - clear_before_install
+  - server_port
+  - proxy_port
+  - tunneling_port
+  - app_version
+  - nv_app_version
+  - installer_file_name
+  - ansible_user_id
+  - s3_download_url
+
+# required dependencies
+# currenly no dependencies required
+
+# set temp folder
+
+- name: make sure temp folder
+  file:
+    path: "{{ temp_folder }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+  become: yes
+
+# download the file
+
+- name: download zip from s3 url
+  get_url:
+    url: "{{ s3_download_url }}"
+    dest: "{{ temp_folder }}/{{ installer_file_name }}"
+  when: custom_download_url == ""
+
+- name: download zip from custom url
+  get_url:
+    url: "{{ custom_download_url }}"
+    dest: "{{ temp_folder }}/{{ installer_file_name }}"
+  when: custom_download_url != ""
+
+# stop old service
+
+- name: stop the old service
+  notify:
+    - stop the service
+  ignore_errors: True
+  become: yes
+
+# delete old installation (optional)
+
+- name: clear old installation folder
+  include_tasks: "tasks/{{ ansible_os_family | lower }}-uninstall.yml"
+  when: clear_before_install == True
+
+# need to check  whether needed backup or not (optional)
+- name: check if folder exists
+  stat:
+    path: "{{ installation_folder }}"
+  register: folder_info
+
+- name: move old version - for backup
+  command: "mv {{ installation_folder }} {{ installation_folder }}-{{ ansible_date_time.epoch }}"
+  when: folder_info.stat.isdir is defined and folder_info.stat.isdir and backup_old_installation == True
+
+# copy varfile and run the installer
+
+- name: copy the varfile
+  template:
+    src: nvserver.varfile.j2
+    dest: "{{ temp_folder }}/{{ (installer_file_name | splitext)[0] }}.varfile"
+
+- name: run the installer
+  command: "sh {{ temp_folder }}/{{ installer_file_name }} -q"
+  become: yes
+  notify:
+    - start the service
+
+# configure after installation
+
+- name: update vmoptions file
+  lineinfile:
+    path: "{{ installation_folder }}/config/application.properties"
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "^{{ item.key | replace('.', '\\.') }}="
+  with_items:
+    
+    - key: -Djava.net.preferIPv4Stack
+      value: "true"
+      
+  become: yes
+  notify:
+    - restart the service
+
+# clear temp files (optional)
+
+- name: clear temp folder
+  file:
+    path: "{{ temp_folder }}"
+    state: absent
+  become: yes
+  when: clear_temp_folder == True
+
+# expose role output
+
+- name: sanitize role name
+  set_fact:
+    sanitize_role_name: "{{ role_name | replace('-', '_') | regex_replace('([^A-Za-z0-9_])', '') | trim }}"
+
+- name: expose role output
+  set_fact:
+    "{{ sanitize_role_name }}":
+      server_port: "{{ server_port }}"
+      proxy_port: "{{ proxy_port }}"
+      tunneling_port: "{{ tunneling_port }}"
+      uplink_eth: "{{ uplink_eth }}"
+      wifi_eth: "{{ wifi_eth }}"
+      installation_folder: "{{ installation_folder }}"
+      reboot_instance_after: "{{ reboot_instance }}"
+
+# reboot the instance after install (optional)
+- name: reboot instance
+  notify:
+    - reboot nvserver instance
+  become: yes
+  when: reboot_after_install == True
+

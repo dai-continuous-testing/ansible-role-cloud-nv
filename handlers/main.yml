@@ -1,0 +1,42 @@
+
+# restarting nvserver services
+- name: start nvserver service
+  service:
+    name: "{{ item }}"
+    state: started
+  become: yes
+  with_items:
+    - nvserver
+    - nvproxyserver
+    - istpserver
+    - dhcpd
+
+- name: stop nvserver service
+  service:
+    name: "{{ item }}"
+    state: Stopped
+  become: yes
+  with_items:
+    - nvserver
+    - nvproxyserver
+    - istpserver
+    - dhcpd
+
+  # restarting nvserver services
+- name: restart nvserver service
+  service:
+    name: "{{ item }}"
+    state: restarted
+  become: yes
+  with_items:
+    - nvserver
+    - nvproxyserver
+    - istpserver
+    - dhcpd
+
+- name: reboot nvserver instance
+  reboot:
+    reboot_timeout: "{{ reboot_timeout }}"
+  become: yes
+
+

@@ -1,0 +1,13 @@
+
+- hosts: cloud-nv
+
+  pre_tasks:
+    
+    # linux installation requires java8
+    - yum:
+        name: "@^gnome-desktop-environment"
+        state: present
+      when: ansible_os_family == "RedHat"
+
+  roles:
+    - role: cloud-nv

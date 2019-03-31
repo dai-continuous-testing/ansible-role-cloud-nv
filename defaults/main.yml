@@ -1,0 +1,27 @@
+---
+
+## get the interface name from nv server
+uplink_eth:  "{{ (ansible_interfaces | select('match', '^(e)') | list)[0] }}"
+wifi_eth: "{{ (ansible_interfaces | select('match', '^(e)') | list)[1] }}"
+
+app_name: "nvserver"
+service_name: "{{ app_name }}"
+main_class: "com.experitest.manager.Application"
+
+server_port: 8888
+proxy_port:  9200
+tunneling_port: 9700
+
+reboot_after_install: True
+backup_old_installation: False
+
+clear_temp_folder: False
+clear_before_install: False
+
+
+cdn_name: "devops-artifacts.experitest.com"
+
+
+
+
+

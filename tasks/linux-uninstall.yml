@@ -1,0 +1,30 @@
+
+- name: assert all vars are set
+  assert: { that: "{{ item }} != '' " }
+  with_items:
+  - installation_folder
+  - temp_folder
+  - reboot_after_install
+
+- name: stop the service
+  notify: 
+    - stop the service
+  ignore_errors: True
+  become: yes
+
+- name: uninstall nvserver
+  command: "{{ installation_folder }}/uninstall -q"
+  become: yes
+
+- name: remove temp folder
+  file:
+    path: "{{ temp_folder }}"
+    state: absent
+  become: yes
+  when: clear_temp_folder == True
+
+- name: reboot instance folder
+  notify:
+    - reboot nvserver instance
+  become: yes
+  when: reboot_after_install == True

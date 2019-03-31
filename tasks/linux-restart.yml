@@ -1,0 +1,4 @@
+# restarting nvserver services
+- name: Restart nvserver service
+  notify:
+    - restart the service
