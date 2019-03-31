@@ -1,10 +1,8 @@
 ---
 
-## get the interface name from nv server
-uplink_eth:  "{{ (ansible_interfaces | select('match', '^(e)') | list)[0] }}"
-wifi_eth: "{{ (ansible_interfaces | select('match', '^(e)') | list)[1] }}"
-
 app_name: "nvserver"
+app_version: 12.4.114
+
 service_name: "{{ app_name }}"
 main_class: "com.experitest.manager.Application"
 
@@ -12,16 +10,22 @@ server_port: 8888
 proxy_port:  9200
 tunneling_port: 9700
 
+## get the interface name from nv server
+uplink_eth:  "{{ (ansible_interfaces | select('match', '^(e)') | list)[0] }}"
+wifi_eth: "{{ (ansible_interfaces | select('match', '^(e)') | list)[1] }}"
+
+reboot_timeout: 600
+
 reboot_after_install: True
 backup_old_installation: False
 
 clear_temp_folder: False
 clear_before_install: False
 
+split_ver: "{{ app_version.split('.') }}"
+nv_app_version: "{{ split_ver[0] }}_{{ split_ver[1] }}_{{ split_ver[2] }}"
+
+custom_download_url: ""
 
 cdn_name: "devops-artifacts.experitest.com"
-
-
-
-
-
+s3_download_url : "https://{{ cdn_name }}/{{ relative_path }}/{{ installer_file_name }}"

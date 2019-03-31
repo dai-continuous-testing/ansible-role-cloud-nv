@@ -4,12 +4,6 @@ installation_folder: "/opt/Experitest/NV/Server"
 
 temp_folder: "/tmp/experitest"
 
-split_ver: "{{ app_version.split('.') }}"
-nv_app_version: "{{ split_ver[0] }}_{{ split_ver[1] }}_{{ split_ver[2] }}"
-
 installer_file_name: "nvserver_unix_{{ nv_app_version }}.sh"
 
 relative_path: "nv/linux"
-s3_download_url : "https://{{ cdn_name }}/{{ relative_path }}/{{ installer_file_name }}"
-
-reboot_timeout: 600
