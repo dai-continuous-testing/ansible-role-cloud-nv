@@ -124,7 +124,7 @@
       uplink_eth: "{{ uplink_eth }}"
       wifi_eth: "{{ wifi_eth }}"
       installation_folder: "{{ installation_folder }}"
-      reboot_instance_after: "{{ reboot_instance }}"
+      reboot_instance_after: "{{ reboot_after_install }}"
 
 # reboot the instance after install (optional)
 - name: reboot instance
