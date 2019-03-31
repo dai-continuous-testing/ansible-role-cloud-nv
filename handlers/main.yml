@@ -14,7 +14,7 @@
 - name: stop nvserver service
   service:
     name: "{{ item }}"
-    state: Stopped
+    state: stopped
   become: yes
   with_items:
     - nvserver

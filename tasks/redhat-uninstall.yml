@@ -13,6 +13,9 @@
   ignore_errors: True
   become: yes
 
+  # run handler immedietly 
+- meta: flush_handlers
+
 - name: uninstall nvserver
   command: "{{ installation_folder }}/uninstall -q"
   become: yes
