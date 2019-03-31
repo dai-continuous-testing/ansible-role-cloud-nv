@@ -9,7 +9,7 @@
 - name: stop the service
   debug:
     msg: "stop service"
-  notify: stop the service
+  notify: stop nvserver service
   ignore_errors: True
   become: yes
 

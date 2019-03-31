@@ -53,7 +53,7 @@
 - name: stop the old service
   debug:
     msg: "stop old service"
-  notify: stop the service
+  notify: stop nvserver service
   ignore_errors: True
   become: yes
 
@@ -83,7 +83,7 @@
 - name: run the installer
   command: "sh {{ temp_folder }}/{{ installer_file_name }} -q"
   become: yes
-  notify: start the service
+  notify: start nvserver service
 
 # configure after installation
 
@@ -98,7 +98,7 @@
       value: "true"
       
   become: yes
-  notify: restart the service
+  notify: restart nvserver service
 
 # clear temp files (optional)
 

@@ -2,4 +2,4 @@
 - name: Restart nvserver service
   debug:
     msg: "restart service"
-  notify: restart the service
+  notify: restart nvserver service
