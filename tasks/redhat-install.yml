@@ -21,6 +21,8 @@
   - installer_file_name
   - ansible_user_id
   - s3_download_url
+  - reboot_timeout
+  - reboot_after_install
 
 # required dependencies
 # currenly no dependencies required
@@ -83,7 +85,6 @@
 - name: run the installer
   command: "sh {{ temp_folder }}/{{ installer_file_name }} -q"
   become: yes
-  notify: start nvserver service
 
 # configure after installation
 
@@ -124,13 +125,12 @@
       uplink_eth: "{{ uplink_eth }}"
       wifi_eth: "{{ wifi_eth }}"
       installation_folder: "{{ installation_folder }}"
-      reboot_instance_after: "{{ reboot_after_install }}"
+      reboot_after_install: "{{ reboot_after_install }}"
 
 # reboot the instance after install (optional)
-- name: reboot instance
-  debug:
-    msg: "reboot instance"
-  notify: reboot nvserver instance
+- name: reboot nvserver instance
+  reboot:
+    reboot_timeout: "{{ reboot_timeout }}"
   become: yes
   when: reboot_after_install == True
 
