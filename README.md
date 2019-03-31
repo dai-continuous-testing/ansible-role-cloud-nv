@@ -32,26 +32,3 @@ Example Playbook
 ----------------
 
 #### [see working example](/example)
-
-In requirements.yml file
-
-    - src: git+https://github.com/ExperitestOfficial/ansible-role-cloud-nv.git
-      version: master
-      name: cloud-nv
-
-
-In site.yml file
-
-    - hosts: cloud-nv
-      roles:
-        - role: cloud-nv
-          state: present
-          app_version: 12.4.114
-
-To invoke, run the following commands:
-
-- install dependencies \
-  *ansible-galaxy install -r requirements.yml*
-
-- run the playbook \
-  *ansible-playbook site.yml*
