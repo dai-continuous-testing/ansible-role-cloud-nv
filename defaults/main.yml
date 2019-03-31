@@ -1,10 +1,10 @@
 ---
 
-app_name: "nvserver"
+# app_name: "nvserver"
 app_version: 12.4.114
 
-service_name: "{{ app_name }}"
-main_class: "com.experitest.manager.Application"
+# service_name: "{{ app_name }}"
+# main_class: "com.experitest.manager.Application"
 
 server_port: 8888
 proxy_port:  9200

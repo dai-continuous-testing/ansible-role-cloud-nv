@@ -6,11 +6,8 @@
   with_items:
   - uplink_eth
   - wifi_eth
-  - app_name
   - temp_folder
   - clear_temp_folder
-  - service_name
-  - main_class
   - installation_folder
   - clear_before_install
   - server_port
@@ -25,6 +22,7 @@
   - reboot_after_install
 
 # required dependencies
+
 # currenly no dependencies required
 
 # set temp folder
@@ -122,6 +120,14 @@
   become: yes
   when: clear_temp_folder == True
 
+# reboot the instance after install (optional)
+
+- name: reboot nvserver instance
+  reboot:
+    reboot_timeout: "{{ reboot_timeout }}"
+  become: yes
+  when: reboot_after_install == True
+
 # expose role output
 
 - name: sanitize role name
@@ -138,11 +144,3 @@
       wifi_eth: "{{ wifi_eth }}"
       installation_folder: "{{ installation_folder }}"
       reboot_after_install: "{{ reboot_after_install }}"
-
-# reboot the instance after install (optional)
-- name: reboot nvserver instance
-  reboot:
-    reboot_timeout: "{{ reboot_timeout }}"
-  become: yes
-  when: reboot_after_install == True
-
