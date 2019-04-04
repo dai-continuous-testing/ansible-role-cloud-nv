@@ -1,5 +1,4 @@
 # restarting nvserver services
 - name: Restart nvserver service
-  debug:
-    msg: "restart service"
+  command: "echo restart service"
   notify: restart nvserver service

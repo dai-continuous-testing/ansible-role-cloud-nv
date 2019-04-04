@@ -51,11 +51,8 @@
 # stop old service
 
 - name: stop the old service
-  debug:
-    msg: "stop old service"
+  command: "echo stop old service"
   notify: stop nvserver service
-  ignore_errors: True
-  become: yes
 
 # run handler immedietly 
 - meta: flush_handlers

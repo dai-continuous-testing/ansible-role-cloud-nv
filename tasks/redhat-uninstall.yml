@@ -7,11 +7,8 @@
   - reboot_after_install
 
 - name: stop the service
-  debug:
-    msg: "stop service"
+  command: "echo stop the service"
   notify: stop nvserver service
-  ignore_errors: True
-  become: yes
 
   # run handler immedietly 
 - meta: flush_handlers

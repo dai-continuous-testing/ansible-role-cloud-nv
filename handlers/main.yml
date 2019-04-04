@@ -1,5 +1,5 @@
 
-# restarting nvserver services
+# starting nvserver services
 - name: start nvserver service
   service:
     name: "{{ item }}"
@@ -11,6 +11,7 @@
     - istpserver
     - dhcpd
 
+# stopping nvserver services
 - name: stop nvserver service
   service:
     name: "{{ item }}"
