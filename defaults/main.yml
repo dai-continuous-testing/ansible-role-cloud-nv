@@ -10,6 +10,8 @@ server_port: 8888
 proxy_port:  9200
 tunneling_port: 9700
 
+extra_java_options: []
+
 ## get the interface name from nv server
 uplink_eth:  "{{ (ansible_interfaces | select('match', '^(e)') | list)[0] }}"
 wifi_eth: "{{ (ansible_interfaces | select('match', '^(e)') | list)[1] }}"

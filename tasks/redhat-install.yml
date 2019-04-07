@@ -20,6 +20,7 @@
   - s3_download_url
   - reboot_timeout
   - reboot_after_install
+  - extra_java_options
 
 # required dependencies
 
@@ -94,18 +95,14 @@
 
 - name: update vmoptions file
   lineinfile:
-    path: "{{ installation_folder }}/config/application.properties"
-    line: "{{ item.key }}={{ item.value }}"
-    regexp: "^{{ item.key | replace('.', '\\.') }}="
-  with_items:
-    
-    - key: -Djava.net.preferIPv4Stack
-      value: "true"
-      
+    path: "{{ installation_folder }}/nvserver.vmopstions"
+    line: "{{ item }}"
+    regexp: "^{{ item.split('=') | first }}"
+  with_items: "{{ extra_java_options }}"      
   become: yes
   notify: restart nvserver service
 
-  # run handler immedietly 
+# run handler immedietly 
 - meta: flush_handlers
 
 # clear temp files (optional)
