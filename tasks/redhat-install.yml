@@ -98,7 +98,7 @@
 
 - name: update vmoptions file
   lineinfile:
-    path: "{{ installation_folder }}/nvserver.vmopstions"
+    path: "{{ installation_folder }}/nvserver.vmoptions"
     line: "{{ item }}"
     regexp: "^{{ item.split('=') | first }}"
   with_items: "{{ extra_java_options }}"      
