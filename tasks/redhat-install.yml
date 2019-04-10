@@ -49,14 +49,17 @@
     dest: "{{ temp_folder }}/{{ installer_file_name }}"
   when: custom_download_url != ""
 
-# stop old service
-
-- name: stop the old service
-  command: "echo stop old service"
-  notify: stop nvserver service
-
-# run handler immedietly 
-- meta: flush_handlers
+# stopping nvserver services
+- name: stop nvserver service
+  service:
+    name: "{{ item }}"
+    state: stopped
+  become: yes
+  with_items:
+    - nvserver
+    - nvproxyserver
+    - istpserver
+    - dhcpd
 
 # delete old installation (optional)
 
@@ -101,9 +104,6 @@
   with_items: "{{ extra_java_options }}"      
   become: yes
   notify: restart nvserver service
-
-# run handler immedietly 
-- meta: flush_handlers
 
 # clear temp files (optional)
 

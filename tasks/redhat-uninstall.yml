@@ -6,13 +6,6 @@
   - temp_folder
   - reboot_after_install
 
-- name: stop the service
-  command: "echo stop the service"
-  notify: stop nvserver service
-
-  # run handler immedietly 
-- meta: flush_handlers
-
 - name: uninstall nvserver
   command: "{{ installation_folder }}/uninstall -q"
   become: yes
