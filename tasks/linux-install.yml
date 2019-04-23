@@ -24,8 +24,6 @@
 
 # required dependencies
 
-# currenly no dependencies required
-
 # set temp folder
 
 - name: make sure temp folder
