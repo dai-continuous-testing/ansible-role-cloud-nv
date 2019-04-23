@@ -64,7 +64,7 @@
 # delete old installation (optional)
 
 - name: clear old installation folder
-  include_tasks: "tasks/{{ ansible_os_family | lower }}-uninstall.yml"
+  include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-uninstall.yml"
   when: clear_before_install == True
 
 # need to check  whether needed backup or not (optional)
