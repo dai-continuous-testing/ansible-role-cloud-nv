@@ -1,7 +1,7 @@
 ---
 
 # app_name: "nvserver"
-app_version: 12.4.114
+app_version: 12.5.127
 
 # service_name: "{{ app_name }}"
 # main_class: "com.experitest.manager.Application"
@@ -13,6 +13,8 @@ tunneling_port: 9700
 extra_java_options: []
 
 ## get the interface name from nv server
+
+# FIXME should remove default?
 uplink_eth:  "{{ (ansible_interfaces | select('match', '^(e)') | list)[0] }}"
 wifi_eth: "{{ (ansible_interfaces | select('match', '^(e)') | list)[1] }}"
 
