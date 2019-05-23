@@ -118,7 +118,7 @@
 
 - name: reboot nvserver instance
   reboot:
-    reboot_timeout: "{{ reboot_timeout }}"
+    reboot_timeout: "{{ reboot_timeout | default(600) }}"
   become: yes
   when: reboot_after_install == True
 
