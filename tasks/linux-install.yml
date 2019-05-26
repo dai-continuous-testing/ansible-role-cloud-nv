@@ -18,7 +18,6 @@
   - installer_file_name
   - ansible_user_id
   - s3_download_url
-  - reboot_timeout
   - reboot_after_install
   - extra_java_options
 
