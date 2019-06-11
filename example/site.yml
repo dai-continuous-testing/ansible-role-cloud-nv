@@ -1,9 +1,5 @@
 
 - hosts: cloud-nv
 
-  pre_tasks:
-    
-    # linux installation requires java8
-
   roles:
     - role: cloud-nv
