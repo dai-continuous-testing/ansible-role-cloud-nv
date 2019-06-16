@@ -12,6 +12,6 @@
 
 - name: override default value
   set_fact:
-    "{{ item }}": "{{ vars['__' + item] }}"
+    "{{ item }}": "{{ lookup('vars', '__' + item) }}"
   with_items: "{{ required_modifiable_fields | list }}"
   when: vars[item] is not defined or vars[item] is none
