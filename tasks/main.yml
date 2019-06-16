@@ -1,11 +1,7 @@
 ---
 
-- name: install dependencies
-  include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-dependencies.yml"
-
-- name: gather os specific variables
-  include_vars: 
-    file: "{{ ansible_os_family | os_family_to_os_type }}.yml"
+- name: validate vars
+  include_tasks: tasks/variables.yml
 
 - name: install
   include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-install.yml"

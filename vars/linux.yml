@@ -1,6 +1,6 @@
 ---
 
-installation_folder: "/opt/Experitest/NV/Server"
+__installation_folder: "/opt/Experitest/NV/Server"
 
 temp_folder: "/tmp/experitest"
 

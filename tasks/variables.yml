@@ -1,0 +1,17 @@
+---
+
+- name: gather os specific variables
+  include_vars: 
+    file: "{{ ansible_os_family | os_family_to_os_type }}.yml"
+
+- name: make sure default values exist
+  assert:
+    that: "{{ vars['__' + item] is defined }}"
+    fail_msg: "default value is missing for var {{ item }}"
+  with_items: "{{ required_modifiable_fields | list }}"
+
+- name: override default value
+  set_fact:
+    "{{ item }}": "{{ vars['__' + item] }}"
+  with_items: "{{ required_modifiable_fields | list }}"
+  when: vars[item] is not defined or vars[item] is none
