@@ -15,7 +15,7 @@ Role Variables
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | state | should the application be present or absent | present, absent, restarted | present | no |
-| app_version | application version to install | string | 12.5.127 | no |
+| app_version | application version to install | string | 12.6.161 | no |
 | server_port | port number for the server | number | 8888 | no |
 | proxy_port | port number for the server | number | 9200 | no |
 | tunneling_port | port number for the server | number | 9700 | no |
