@@ -3,7 +3,6 @@
 required_modifiable_fields:
   - app_version
   - server_port
-  - jmx_port
   - installation_folder
 
   - server_port
