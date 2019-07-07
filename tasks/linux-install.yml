@@ -49,6 +49,7 @@
   when: custom_download_url != ""
 
 # stopping nvserver services
+
 - name: stop nvserver service
   service:
     name: "{{ item }}"
@@ -59,6 +60,7 @@
     - nvproxyserver
     - istpserver
     - dhcpd
+  ignore_errors: yes
 
 # delete old installation (optional)
 
