@@ -59,6 +59,7 @@
     - nvproxyserver
     - istpserver
     - dhcpd
+  ignore_errors: yes
 
 # delete old installation (optional)
 
