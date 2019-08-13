@@ -106,15 +106,6 @@
   become: yes
   notify: restart nvserver service
 
-# clear temp files (optional)
-
-- name: clear temp folder
-  file:
-    path: "{{ temp_folder }}"
-    state: absent
-  become: yes
-  when: clear_temp_folder | default('no') | bool
-
 # reboot the instance after install (optional)
 
 - name: reboot nvserver instance
