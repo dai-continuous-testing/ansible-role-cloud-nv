@@ -10,6 +10,12 @@
   command: "{{ installation_folder }}/uninstall -q"
   become: yes
 
+- name: remove installation folder
+  file:
+    path: "{{ installation_folder }}"
+    state: absent
+  become: yes
+
 - name: remove temp folder
   file:
     path: "{{ temp_folder }}"
@@ -17,8 +23,10 @@
   become: yes
   when: clear_temp_folder | default('no') | bool
 
-- name: reboot instance folder
-  notify:
-    - reboot nvserver instance
+# reboot the instance after uninstall (optional)
+
+- name: reboot nvserver instance
+  reboot:
+    reboot_timeout: "{{ reboot_timeout | default(600) }}"
   become: yes
   when: reboot_after_install == True
