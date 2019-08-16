@@ -1,0 +1,19 @@
+- name: check files to remove from temp folder
+  find:
+    paths: "{{ temp_folder }}"
+    file_type: "{{ item }}"
+    patterns: "nvserver_unix_*"
+  become: yes
+  with_items:
+    - file
+    - directory
+  register: cleanup_files
+
+- name: remove files from temp folder
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  become: yes
+  with_items:
+    - "{{ cleanup_files.results[0].files }}"
+    - "{{ cleanup_files.results[1].files }}"
