@@ -9,19 +9,13 @@
 - name: uninstall nvserver
   command: "{{ installation_folder }}/uninstall -q"
   become: yes
+  ignore_errors: yes
 
 - name: remove installation folder
   file:
     path: "{{ installation_folder }}"
     state: absent
   become: yes
-
-- name: remove temp folder
-  file:
-    path: "{{ temp_folder }}"
-    state: absent
-  become: yes
-  when: clear_temp_folder | default('no') | bool
 
 # reboot the instance after uninstall (optional)
 

@@ -29,6 +29,7 @@ extra_java_options: []
 __uplink_eth: 
 __wifi_eth: 
 
+start_after_install: True
 reboot_after_install: True
 backup_old_installation: False
 
