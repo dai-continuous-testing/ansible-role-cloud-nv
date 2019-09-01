@@ -1,4 +1,11 @@
-# restarting nvserver services
-- name: Restart nvserver service
-  command: "echo restart service"
-  notify: restart nvserver service
+
+- name: restart nvserver service
+  service:
+    name: "{{ item }}"
+    state: restarted
+  become: yes
+  with_items:
+    - nvserver
+    - nvproxyserver
+    - istpserver
+    - dhcpd

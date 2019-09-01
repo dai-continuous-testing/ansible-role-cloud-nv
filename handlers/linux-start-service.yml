@@ -1,0 +1,23 @@
+
+- name: start the service
+  systemd:
+    name: "{{ item }}"
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  become: yes
+  with_items:
+    - nvserver
+    - nvproxyserver
+    - istpserver
+    - dhcpd
+
+- name: set health check port
+  set_fact:
+     health_check_port: "{{ proxy_port|int - 1}}"
+
+- name: wait for service to start
+  health_check:
+    url: "http://localhost:{{ health_check_port | default(server_port) }}{{ health_check_uri | default('/manage/info') }}"
+    expected_status: "{{ health_check_status | default('200') }}"
+    max_retries: "{{ health_check_max_retries | default('20') }}"

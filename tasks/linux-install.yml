@@ -104,7 +104,7 @@
     regexp: "^{{ item.split('=') | first }}"
   with_items: "{{ extra_java_options }}"      
   become: yes
-  notify: restart nvserver service
+  notify: start the service
 
 # reboot the instance after install (optional)
 

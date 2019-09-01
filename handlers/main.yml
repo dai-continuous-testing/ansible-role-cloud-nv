@@ -1,36 +1,4 @@
 
-# starting nvserver services
-- name: start nvserver service
-  service:
-    name: "{{ item }}"
-    state: started
-  become: yes
-  with_items:
-    - nvserver
-    - nvproxyserver
-    - istpserver
-    - dhcpd
-
-# stopping nvserver services
-- name: stop nvserver service
-  service:
-    name: "{{ item }}"
-    state: stopped
-  become: yes
-  with_items:
-    - nvserver
-    - nvproxyserver
-    - istpserver
-    - dhcpd
-
-  # restarting nvserver services
-- name: restart nvserver service
-  service:
-    name: "{{ item }}"
-    state: restarted
-  become: yes
-  with_items:
-    - nvserver
-    - nvproxyserver
-    - istpserver
-    - dhcpd
+- name: start the service
+  include_tasks: "handlers/{{ ansible_os_family | os_family_to_os_type }}-start-service.yml"
+  when: start_after_install | default(false) | bool
