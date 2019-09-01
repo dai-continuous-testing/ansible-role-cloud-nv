@@ -1,9 +1,8 @@
 
 - name: start the service
-  systemd:
+  service:
     name: "{{ item }}"
     state: started
-    daemon_reload: yes
     enabled: yes
   become: yes
   with_items:
