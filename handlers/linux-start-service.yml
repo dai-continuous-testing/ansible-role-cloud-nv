@@ -26,7 +26,11 @@
     url: "http://localhost:{{ health_check_port | default(server_port) }}{{ health_check_uri | default('/manage/info') }}"
   register: api_response
 
+- name: print installed version
+  debug:
+    msg: " Installed version: {{ api_response.json.build.version }}"
+
 - name: fail if app_version is not equal to installed version
   fail:
-    msg: "app_version: {{app_version}} does not macthed to installed version {{api_response.json.build.version}}"
+    msg: "app_version: {{ app_version }} does not macthed to installed version {{ api_response.json.build.version }}"
   when: app_version != api_response.json.build.version
