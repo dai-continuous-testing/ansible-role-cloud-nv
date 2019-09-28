@@ -12,7 +12,7 @@ required_modifiable_fields:
   - wifi_eth
 
 # app_name: "nvserver"
-__app_version: 12.8.174
+__app_version: 12.9.188
 
 # service_name: "{{ app_name }}"
 # main_class: "com.experitest.manager.Application"
