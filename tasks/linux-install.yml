@@ -23,6 +23,12 @@
 
 # required dependencies
 
+- name: make sure epel-release is installed
+  package:
+    name: epel-release
+    state: present
+  become: yes
+
 # set temp folder
 
 - name: make sure temp folder
