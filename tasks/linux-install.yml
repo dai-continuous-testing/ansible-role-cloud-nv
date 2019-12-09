@@ -24,9 +24,10 @@
 # required dependencies
 
 - name: make sure epel-release is installed
-  package:
+  yum:
     name: epel-release
     state: present
+    lock_timeout: 180
   become: yes
 
 # set temp folder
