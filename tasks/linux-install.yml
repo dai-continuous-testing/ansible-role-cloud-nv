@@ -42,13 +42,20 @@
 
 # download the file
 
+- name: check if the installer is already downloaded
+  stat:
+    path: "{{ temp_folder }}/{{ installer_file_name }}"
+  register: installer_file_status
+
 - name: validate checksum and download zip from s3 url
   get_url:
     url: "{{ s3_download_url }}"
     checksum: "sha256: {{ installer_checksum }}"
     dest: "{{ temp_folder }}/{{ installer_file_name }}"
     timeout: "{{ download_timeout | default(60) }}"
-  when: custom_download_url == ""
+    when:
+      - custom_download_url == ""
+      - not installer_file_status.stat.exists
 
 - name: validate checksum and download zip from custom url
   get_url:
@@ -56,7 +63,9 @@
     checksum: "sha256: {{ installer_checksum }}"
     dest: "{{ temp_folder }}/{{ installer_file_name }}"
     timeout: "{{ download_timeout | default(60) }}"
-  when: custom_download_url != ""
+    when: 
+      - custom_download_url != ""
+      - not installer_file_status.stat.exists
 
 # stopping nvserver services
 
