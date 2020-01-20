@@ -53,9 +53,9 @@
     checksum: "sha256: {{ installer_checksum }}"
     dest: "{{ temp_folder }}/{{ installer_file_name }}"
     timeout: "{{ download_timeout | default(60) }}"
-    when:
-      - custom_download_url == ""
-      - not installer_file_status.stat.exists
+  when:
+    - custom_download_url == ""
+    - not installer_file_status.stat.exists
 
 - name: validate checksum and download zip from custom url
   get_url:
@@ -63,9 +63,9 @@
     checksum: "sha256: {{ installer_checksum }}"
     dest: "{{ temp_folder }}/{{ installer_file_name }}"
     timeout: "{{ download_timeout | default(60) }}"
-    when: 
-      - custom_download_url != ""
-      - not installer_file_status.stat.exists
+  when: 
+    - custom_download_url != ""
+    - not installer_file_status.stat.exists
 
 # stopping nvserver services
 
