@@ -113,6 +113,14 @@
   with_items: "{{ extra_java_options }}"      
   become: yes
 
+# reset pairing key
+
+- name: reset pairing key
+  file:
+    path: "{{ installation_folder }}/config/{{ pairing_file_name }}"
+    state: absent
+  become: yes
+
 # reboot the instance after install (optional)
 
 - name: reboot nvserver instance
