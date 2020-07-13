@@ -1,6 +1,7 @@
 ---
 
 __installation_folder: "/opt/Experitest/NV/Server"
+__shared_storage_folder: ""
 
 temp_folder: "/tmp/experitest"
 

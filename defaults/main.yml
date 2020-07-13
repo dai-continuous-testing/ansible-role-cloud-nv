@@ -10,12 +10,15 @@ required_modifiable_fields:
   - tunneling_port
   - uplink_eth
   - wifi_eth
+  - deployment_mode
 
 # app_name: "nvserver"
 __app_version: 12.12.197
 
 # service_name: "{{ app_name }}"
 # main_class: "com.experitest.manager.Application"
+
+__deployment_mode: online
 
 __server_port: 8888
 __proxy_port:  9200

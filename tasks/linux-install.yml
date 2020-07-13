@@ -23,12 +23,34 @@
 
 # required dependencies
 
-- name: make sure epel-release is installed
-  yum:
-    name: epel-release
-    state: present
-    lock_timeout: 180
+- name: download dependencies from internet
+  block:
+
+    - name: make sure epel-release is installed
+      yum:
+        name: epel-release
+        state: present
+        lock_timeout: 180
+      become: yes
+     
+  when: deployment_mode == "online"
+
+# disable selinux and firewalld
+
+- name: disable selinux
+  selinux:
+    state: disabled
   become: yes
+
+- name: stop and disable firewall     ## need to discuss on disabling firewall service
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  become: yes
+  ignore_errors: yes
+  with_items:
+    - firewalld
 
 # set temp folder
 
@@ -41,19 +63,31 @@
 
 # download the file
 
-- name: download zip from s3 url
-  get_url:
-    url: "{{ s3_download_url }}"
-    dest: "{{ temp_folder }}/{{ installer_file_name }}"
-    timeout: "{{ download_timeout | default(60) }}"
-  when: custom_download_url == ""
+- name: download zip from internet
+  block:
 
-- name: download zip from custom url
-  get_url:
-    url: "{{ custom_download_url }}"
+    - name: download zip from s3 url
+      get_url:
+        url: "{{ s3_download_url }}"
+        dest: "{{ temp_folder }}/{{ installer_file_name }}"
+        timeout: "{{ download_timeout | default(60) }}"
+      when: custom_download_url == ""
+    
+    - name: download zip from custom url
+      get_url:
+        url: "{{ custom_download_url }}"
+        dest: "{{ temp_folder }}/{{ installer_file_name }}"
+        timeout: "{{ download_timeout | default(60) }}"
+      when: custom_download_url != ""
+
+  when: deployment_mode == "online"
+
+- name: download zip from shared storage folder
+  copy:
+    src: "{{ shared_storage_folder }}/{{ relative_path }}/{{ installer_file_name }}"
     dest: "{{ temp_folder }}/{{ installer_file_name }}"
-    timeout: "{{ download_timeout | default(60) }}"
-  when: custom_download_url != ""
+    remote_src: no
+  when: deployment_mode == "offline"
 
 # stopping nvserver services
 
