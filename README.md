@@ -28,6 +28,9 @@ Role Variables
 | backup_old_installation | take backup old installation before install | boolean | False | no |
 | uplink_eth | can provide ethernet name for uplink | string | Auto | no |
 | wifi_eth | can provide ethernet name for wifi | string | Auto | no |
+| mitm_port | mitm proxy port number | number | 12121 | no |
+| mitm_use_certificate | should we run MITM proxy with client side certificate | boolean | False | no |
+| mitm_certificate_path | client certificate full path, only if "mitm_use_certificate" is true | string |  | no |
 
 Example Playbook
 ----------------

@@ -10,6 +10,7 @@ required_modifiable_fields:
   - tunneling_port
   - uplink_eth
   - wifi_eth
+  - mitmdump_port
 
 # app_name: "nvserver"
 __app_version: 12.12.197
@@ -20,6 +21,9 @@ __app_version: 12.12.197
 __server_port: 8888
 __proxy_port:  9200
 __tunneling_port: 9700
+
+__mitm_port: 12121
+mitm_use_certificate: False
 
 extra_java_options: []
 
@@ -45,3 +49,5 @@ cdn_name: "devops-artifacts.experitest.com"
 s3_download_url: "https://{{ cdn_name }}/{{ relative_path }}/{{ installer_file_name }}"
 
 pairing_file_name: pairing.dat
+
+mitm_health_uri: /manage/mitm-status

@@ -21,6 +21,16 @@
     expected_status: "{{ health_check_status | default('200') }}"
     max_retries: "{{ health_check_max_retries | default('20') }}"
 
+- name: check mitm service status
+  uri:
+    url: "http://localhost:{{ health_check_port | default(server_port) }}{{ mitm_health_uri | default('/manage/mitm-status') }}"
+    return_content: yes
+  register: mitm_response
+
+- name: print mitm service status
+  debug:
+    msg: "{{ mitm_response }}"
+
 - name: get installed version
   uri:
     url: "http://localhost:{{ health_check_port | default(server_port) }}{{ health_check_uri | default('/manage/info') }}"

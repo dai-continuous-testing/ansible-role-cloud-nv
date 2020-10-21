@@ -21,6 +21,13 @@
   - reboot_after_install
   - extra_java_options
 
+- name: assert when mitm_use_certificate is true
+  assert:
+    that:
+      - mitm_certificate_path != ''
+    fail_msg: "'mitm_certificate_path' is not defined"
+  when: mitm_use_certificate|bool == true
+
 # required dependencies
 
 - name: make sure epel-release is installed
@@ -91,12 +98,25 @@
 
   when: backup_old_installation == True
 
-# copy varfile and run the installer
+# copy varfile
 
 - name: copy the varfile
   template:
     src: nvserver.varfile.j2
     dest: "{{ temp_folder }}/{{ (installer_file_name | splitext)[0] }}.varfile"
+
+# mitm proxy client certificate
+- name: add client certificate path for mitm proxy
+  lineinfile:
+    path: "{{ temp_folder }}/{{ (installer_file_name | splitext)[0] }}.varfile"
+    line: "{{ item }}"
+    regexp: "^{{ item.split('=') | first }}"
+  with_items:
+    - clientCertificate={{ mitm_certificate_path }}
+  become: yes
+  when: mitm_use_certificate|bool == true
+
+# run the installer
 
 - name: run the installer
   command: "sh {{ temp_folder }}/{{ installer_file_name }} -q"
