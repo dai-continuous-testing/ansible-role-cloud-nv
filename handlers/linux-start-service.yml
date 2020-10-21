@@ -12,6 +12,10 @@
     - dhcpd
     - mitmdump_selenium
 
+- name: Pause for 5 seconds to get service up
+  pause:
+    seconds: 5
+
 - name: set health check port
   set_fact:
     health_check_port: "{{ proxy_port|int - 1}}"
