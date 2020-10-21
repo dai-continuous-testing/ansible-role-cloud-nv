@@ -10,7 +10,7 @@ required_modifiable_fields:
   - tunneling_port
   - uplink_eth
   - wifi_eth
-  - mitmdump_port
+  - mitm_port
 
 # app_name: "nvserver"
 __app_version: 12.12.197
