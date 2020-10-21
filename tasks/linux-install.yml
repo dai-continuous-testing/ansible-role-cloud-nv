@@ -74,6 +74,7 @@
     - nvproxyserver
     - istpserver
     - dhcpd
+    - mitmdump_selenium
   ignore_errors: yes
 
 # delete old installation (optional)

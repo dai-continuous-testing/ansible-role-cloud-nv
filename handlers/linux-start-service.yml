@@ -10,6 +10,7 @@
     - nvproxyserver
     - istpserver
     - dhcpd
+    - mitmdump_selenium
 
 - name: set health check port
   set_fact:
@@ -29,7 +30,7 @@
 
 - name: print mitm service status
   debug:
-    msg: "{{ mitm_response }}"
+    msg: "mitm proxy status: {{ mitm_response.json.status }}"
 
 - name: get installed version
   uri:
