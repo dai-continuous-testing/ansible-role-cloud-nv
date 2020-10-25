@@ -116,6 +116,23 @@
   become: yes
   when: mitm_use_certificate|bool == true
 
+# check if nvserver.varfile already exists
+- name: check if the nvserver.varfile exists
+  stat:
+    path: "{{ installation_folder }}/.install4j/nvserver.varfile"
+  register: server_varfile
+
+# copy varfile to nvserver.varfile
+- name: copy installer varfile to nvserver.varfile
+  copy:
+    src: "{{ temp_folder }}/{{ (installer_file_name | splitext)[0] }}.varfile"
+    dest: "{{ installation_folder }}/.install4j/nvserver.varfile"
+    mode: 0644
+    force: yes
+    remote_src: yes
+  become: yes
+  when: server_varfile.stat.exists
+
 # run the installer
 
 - name: run the installer
