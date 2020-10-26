@@ -1,3 +1,4 @@
+#install4j response file for SeeTest NV Server {{ app_version }}
 shouldReboot$Boolean=true
 istpServerPort$Long={{ tunneling_port }}
 wifiInterface={{ wifi_eth }}
@@ -5,3 +6,5 @@ sys.installationDir={{ installation_folder }}
 serverPort$Long={{ server_port }}
 proxyServerPort$Long={{ proxy_port }}
 uplinkInterface={{ uplink_eth }}
+mitmdumpPort$Long={{ mitm_port }}
+useClientCertificate$Boolean={{ mitm_use_certificate | lower }}
