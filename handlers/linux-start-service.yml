@@ -32,9 +32,14 @@
     return_content: yes
   register: mitm_response
 
-- name: print mitm service status
-  debug:
-    msg: "mitm proxy status: {{ mitm_response.json.status }}"
+#- name: print mitm service status
+#  debug:
+#    msg: "mitm proxy status: {{ mitm_response.json.status }}"
+    
+- name: fail if mitm service is down
+  fail:
+    msg: "Error: mitm proxy status is {{ mitm_response.json.status }}"
+  when: mitm_response.json.status != 'UP'
 
 - name: get installed version
   uri:
