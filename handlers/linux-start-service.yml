@@ -12,9 +12,9 @@
     - dhcpd
     - mitmdump_selenium
 
-- name: Pause for 5 seconds to get service up
+- name: Pause for 10 seconds to get service up
   pause:
-    seconds: 5
+    seconds: 10
 
 - name: set health check port
   set_fact:
