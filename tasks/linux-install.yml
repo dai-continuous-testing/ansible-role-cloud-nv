@@ -37,6 +37,13 @@
     lock_timeout: 180
   become: yes
 
+# disable selinux
+
+- name: disable selinux
+  selinux:
+    state: disabled
+  become: yes
+
 # set temp folder
 
 - name: make sure temp folder
