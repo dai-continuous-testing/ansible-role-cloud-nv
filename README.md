@@ -31,6 +31,8 @@ Role Variables
 | mitm_port | mitm proxy port number | number | 12121 | no |
 | mitm_use_certificate | should we run MITM proxy with client side certificate | boolean | False | no |
 | mitm_certificate_path | client certificate full path, only if "mitm_use_certificate" is true | string |  | no |
+| download | only download the release version | boolean | True | no |
+| deploy | only deploy the release version | boolean | True | no |
 
 Example Playbook
 ----------------

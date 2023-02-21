@@ -2,7 +2,9 @@
 # validation
 
 - name: assert all vars are set
-  assert: { that: "{{ item }} != '' " }
+  assert: 
+    that: "{{ item }} != '' " 
+    quiet: true
   with_items:
   - uplink_eth
   - wifi_eth
@@ -37,6 +39,13 @@
     lock_timeout: 180
   become: yes
 
+# disable selinux
+
+- name: disable selinux
+  selinux:
+    state: disabled
+  become: yes
+
 # set temp folder
 
 - name: make sure temp folder
@@ -61,124 +70,3 @@
     dest: "{{ temp_folder }}/{{ installer_file_name }}"
     timeout: "{{ download_timeout | default(60) }}"
   when: custom_download_url != ""
-
-# stopping nvserver services
-
-- name: stop nvserver service
-  service:
-    name: "{{ item }}"
-    state: stopped
-  become: yes
-  with_items:
-    - nvserver
-    - nvproxyserver
-    - istpserver
-    - dhcpd
-  ignore_errors: yes
-
-# delete old installation (optional)
-
-- name: clear old installation folder
-  include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-uninstall.yml"
-  when: clear_before_install == True
-
-# need to check  whether needed backup or not (optional)
-
-- name: backup old installation
-  block:
-  
-    - name: check if folder exists
-      stat:
-        path: "{{ installation_folder }}"
-      register: folder_info
-
-    - name: move old version - for backup
-      command: "mv {{ installation_folder }} {{ installation_folder }}-{{ ansible_date_time.epoch }}"
-      when: folder_info.stat.isdir is defined and folder_info.stat.isdir
-
-  when: backup_old_installation == True
-
-# copy varfile
-
-- name: copy the varfile
-  template:
-    src: nvserver.varfile.j2
-    dest: "{{ temp_folder }}/{{ (installer_file_name | splitext)[0] }}.varfile"
-
-# mitm proxy client certificate
-- name: add client certificate path for mitm proxy
-  lineinfile:
-    path: "{{ temp_folder }}/{{ (installer_file_name | splitext)[0] }}.varfile"
-    line: "{{ item }}"
-    regexp: "^{{ item.split('=') | first }}"
-  with_items:
-    - clientCertificate={{ mitm_certificate_path }}
-  become: yes
-  when: mitm_use_certificate|bool == true
-
-# check if nvserver.varfile already exists
-- name: check if the nvserver.varfile exists
-  stat:
-    path: "{{ installation_folder }}/.install4j/nvserver.varfile"
-  register: server_varfile
-
-# copy varfile to nvserver.varfile
-- name: copy installer varfile to nvserver.varfile
-  copy:
-    src: "{{ temp_folder }}/{{ (installer_file_name | splitext)[0] }}.varfile"
-    dest: "{{ installation_folder }}/.install4j/nvserver.varfile"
-    mode: 0644
-    force: yes
-    remote_src: yes
-  become: yes
-  when: server_varfile.stat.exists
-
-# run the installer
-
-- name: run the installer
-  command: "sh {{ temp_folder }}/{{ installer_file_name }} -q"
-  become: yes
-  notify: start the service
-
-# configure after installation
-
-- name: update vmoptions file
-  lineinfile:
-    path: "{{ installation_folder }}/nvproxyserver.vmoptions"
-    line: "{{ item }}"
-    regexp: "^{{ item.split('=') | first }}"
-  with_items: "{{ extra_java_options }}"      
-  become: yes
-
-# reset pairing key
-
-- name: reset pairing key
-  file:
-    path: "{{ installation_folder }}/config/{{ pairing_file_name }}"
-    state: absent
-  become: yes
-
-# reboot the instance after install (optional)
-
-- name: reboot nvserver instance
-  reboot:
-    reboot_timeout: "{{ reboot_timeout | default(600) }}"
-  become: yes
-  when: reboot_after_install == True
-
-# expose role output
-
-- name: sanitize role name
-  set_fact:
-    sanitize_role_name: "{{ role_name | replace('-', '_') | regex_replace('([^A-Za-z0-9_])', '') | trim }}"
-
-- name: expose role output
-  set_fact:
-    "{{ sanitize_role_name }}":
-      server_port: "{{ server_port }}"
-      proxy_port: "{{ proxy_port }}"
-      tunneling_port: "{{ tunneling_port }}"
-      uplink_eth: "{{ uplink_eth }}"
-      wifi_eth: "{{ wifi_eth }}"
-      installation_folder: "{{ installation_folder }}"
-      reboot_after_install: "{{ reboot_after_install }}"
