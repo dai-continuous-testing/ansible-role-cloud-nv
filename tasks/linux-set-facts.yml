@@ -1,0 +1,16 @@
+# expose role output
+
+- name: sanitize role name
+  set_fact:
+    sanitize_role_name: "{{ role_name | replace('-', '_') | regex_replace('([^A-Za-z0-9_])', '') | trim }}"
+
+- name: expose role output
+  set_fact:
+    "{{ sanitize_role_name }}":
+      server_port: "{{ server_port }}"
+      proxy_port: "{{ proxy_port }}"
+      tunneling_port: "{{ tunneling_port }}"
+      uplink_eth: "{{ uplink_eth }}"
+      wifi_eth: "{{ wifi_eth }}"
+      installation_folder: "{{ installation_folder }}"
+      reboot_after_install: "{{ reboot_after_install }}"

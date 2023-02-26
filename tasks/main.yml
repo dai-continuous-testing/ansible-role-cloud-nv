@@ -5,7 +5,9 @@
 
 - name: install
   include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-install.yml"
-  when: state|default('present') == 'present'
+  when: 
+    - state|default('present') == 'present'
+    - download | default('true') | bool
 
 - name: clear temp folder
   include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-clear-temp.yml"
@@ -15,6 +17,11 @@
   include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-uninstall.yml"
   when: state|default('present') == 'absent'
 
+- name: set-facts for next steps
+  include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-set-facts.yml"
+
 - name: restart cloud nv
   include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-restart.yml"
-  when: state|default('present') == 'restarted'
+  when: 
+    - state|default('present') == 'present'
+    - deploy | default('true') | bool

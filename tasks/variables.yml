@@ -8,6 +8,7 @@
   assert:
     that: "{{ vars['__' + item] is defined }}"
     fail_msg: "default value is missing for var {{ item }}"
+    quiet: true
   with_items: "{{ required_modifiable_fields | list }}"
 
 - name: override default value
