@@ -30,24 +30,6 @@
     fail_msg: "'mitm_certificate_path' is not defined"
   when: mitm_use_certificate|bool == true
 
-# required dependencies
-
-- name: make sure epel-release is installed
-  yum:
-    name: epel-release
-    state: present
-    lock_timeout: 180
-  become: yes
-
-# disable selinux
-
-- name: disable selinux
-  selinux:
-    state: disabled
-  become: yes
-
-# set temp folder
-
 - name: make sure temp folder
   file:
     path: "{{ temp_folder }}"

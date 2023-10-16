@@ -3,6 +3,9 @@
 - name: validate vars
   include_tasks: tasks/variables.yml
 
+- name: prerequisite
+  include_tasks: "tasks/{{ ansible_os_family | lower }}-prerequisite.yml"
+
 - name: install
   include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-install.yml"
   when: 
