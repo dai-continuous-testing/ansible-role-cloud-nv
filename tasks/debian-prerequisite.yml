@@ -7,3 +7,13 @@
   with_items:
     - rsync
     - unzip
+#     - isc-dhcp-server
+
+# - name: Enable DHCP service
+#   service:
+#     name: "{{ item }}"
+#     state: restarted
+#     enabled: yes
+#   become: yes
+#   with_items:
+#     - isc-dhcp-server
