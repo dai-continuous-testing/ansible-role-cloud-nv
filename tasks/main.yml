@@ -1,5 +1,10 @@
 ---
 
+- name: Fail if os family is not redhat or debian
+  fail:
+    msg: Current role does not support on {{ ansible_os_family | lower }}, It only supports CentOS/RedHat and Debian hosts.
+  when: (ansible_os_family | lower) not in ['redhat', 'debian']
+
 - name: validate vars
   include_tasks: tasks/variables.yml
 
