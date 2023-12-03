@@ -13,7 +13,7 @@ required_modifiable_fields:
   - mitm_port
 
 # app_name: "nvserver"
-__app_version: 23.1.710
+__app_version: 23.11.775
 
 # service_name: "{{ app_name }}"
 # main_class: "com.experitest.manager.Application"
