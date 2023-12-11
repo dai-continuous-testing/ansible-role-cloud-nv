@@ -7,13 +7,13 @@
   with_items:
     - rsync
     - unzip
-#     - isc-dhcp-server
 
-# - name: Enable DHCP service
-#   service:
-#     name: "{{ item }}"
-#     state: restarted
-#     enabled: yes
-#   become: yes
-#   with_items:
-#     - isc-dhcp-server
+- name: Make sure AppArmor and UFW is not present
+  apt:
+    name: "{{ item }}"
+    state: absent
+    lock_timeout: 180
+  become: yes
+  with_items:
+    - apparmor
+    - ufw
