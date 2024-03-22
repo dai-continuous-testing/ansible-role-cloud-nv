@@ -6,7 +6,6 @@
     enabled: yes
   become: yes
   with_items:
-    - nvserver
     - nvproxyserver
     - istpserver
     - dhcpd
