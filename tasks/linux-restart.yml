@@ -6,6 +6,7 @@
     state: stopped
   become: yes
   with_items:
+    - nvserver
     - nvproxyserver
     - istpserver
     - dhcpd
@@ -115,6 +116,7 @@
     state: restarted
   become: yes
   with_items:
+    - nvserver
     - nvproxyserver
     - istpserver
     - dhcpd
