@@ -93,6 +93,14 @@
     state: absent
   become: yes
 
+- name: update application properties file
+  lineinfile:
+    path: "{{ installation_folder }}/config/application.properties"
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "^{{ item.key | replace('.', '\\.') }}="
+  with_dict: "{{ application_properties }}"
+  become: yes  
+
 # reboot the instance after install (optional)
 
 - name: reboot nvserver instance
