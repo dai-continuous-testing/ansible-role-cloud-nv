@@ -51,3 +51,7 @@ s3_download_url: "https://{{ cdn_name }}/{{ relative_path }}/{{ installer_file_n
 pairing_file_name: pairing.dat
 
 mitm_health_uri: /manage/mitm-status
+base_application_properties: {}
+extra_application_properties: {}
+
+application_properties: "{{ base_application_properties | combine(extra_application_properties) }}"

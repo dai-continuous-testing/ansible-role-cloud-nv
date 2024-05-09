@@ -23,14 +23,16 @@
     - state|default('present') == 'present'
     - deploy | default('true') | bool
 
+- name: clear temp folder
+  include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-clear-temp.yml"
+  when: 
+    - clear_temp_folder | default('no') | bool
+    - deploy | default('true') | bool
+
 - name: set-facts for next steps
   include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-set-facts.yml"
 
 - name: uninstall
   include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-uninstall.yml"
   when: state|default('present') == 'absent'
-
-- name: clear temp folder
-  include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-clear-temp.yml"
-  when: clear_temp_folder | default('no') | bool
   
