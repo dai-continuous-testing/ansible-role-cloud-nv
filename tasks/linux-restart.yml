@@ -8,7 +8,7 @@
   with_items:
     - nvproxyserver
     - istpserver
-    - dhcpd
+    - "{{ dhcp_service_name[ansible_os_family] }}"
   ignore_errors: yes
 
 # delete old installation (optional)
@@ -117,4 +117,4 @@
   with_items:
     - nvproxyserver
     - istpserver
-    - dhcpd
+    - "{{ dhcp_service_name[ansible_os_family] }}"

@@ -7,3 +7,7 @@ temp_folder: "/tmp/experitest"
 installer_file_name: "nvserver_unix_{{ nv_app_version }}.sh"
 
 relative_path: "nv/linux"
+
+dhcp_service_name:
+  RedHat: dhcpd
+  Debian: isc-dhcp-server
