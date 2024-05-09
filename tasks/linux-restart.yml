@@ -73,7 +73,6 @@
 - name: run the installer
   command: "sh {{ temp_folder }}/{{ installer_file_name }} -q"
   become: yes
-  notify: start the service
 
 # configure after installation
 
@@ -99,7 +98,12 @@
     line: "{{ item.key }}={{ item.value }}"
     regexp: "^{{ item.key | replace('.', '\\.') }}="
   with_dict: "{{ application_properties }}"
-  become: yes  
+  become: yes
+
+- name: notify to start service
+  command: echo "notify to start service..."
+  notify:
+    - start the service  
 
 # reboot the instance after install (optional)
 
