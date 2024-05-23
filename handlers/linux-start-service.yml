@@ -8,7 +8,7 @@
   with_items:
     - nvproxyserver
     - istpserver
-    - dhcpd
+    - "{{ dhcp_service_name[ansible_os_family] }}"
     - mitmdump_selenium
 
 - name: Pause for 10 seconds to get service up

@@ -1,0 +1,29 @@
+# required dependencies
+
+- name: make sure prerequisites are installed
+  yum:
+    name: "{{ item }}"
+    state: present
+    lock_timeout: 180
+  become: yes
+  with_items:
+    - epel-release
+    - rsync
+    - unzip
+
+# disable selinux and firewalld
+
+- name: disable selinux
+  selinux:
+    state: disabled
+  become: yes
+   
+- name: stop and disable firewall     ## need to discuss on disabling firewall service
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  become: yes
+  ignore_errors: yes
+  with_items:
+    - firewalld

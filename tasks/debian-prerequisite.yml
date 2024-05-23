@@ -1,0 +1,19 @@
+- name: make sure prerequisites are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+    lock_timeout: 180
+  become: yes
+  with_items:
+    - rsync
+    - unzip
+
+- name: Make sure AppArmor and UFW is not present
+  apt:
+    name: "{{ item }}"
+    state: absent
+    lock_timeout: 180
+  become: yes
+  with_items:
+    - apparmor
+    - ufw
