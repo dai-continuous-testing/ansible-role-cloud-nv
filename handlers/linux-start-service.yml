@@ -11,9 +11,9 @@
     - "{{ dhcp_service_name[ansible_os_family] }}"
     - mitmdump_selenium
 
-- name: Pause for 10 seconds to get service up
+- name: Pause for 30 seconds to get service up
   pause:
-    seconds: 10
+    seconds: 30
 
 - name: set health check port
   set_fact:
