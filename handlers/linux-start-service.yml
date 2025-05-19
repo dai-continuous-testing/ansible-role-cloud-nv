@@ -9,7 +9,6 @@
     - nvproxyserver
     - istpserver
     - "{{ dhcp_service_name[ansible_os_family] }}"
-    - mitmdump_selenium
 
 - name: Pause for 30 seconds to get service up
   pause:
