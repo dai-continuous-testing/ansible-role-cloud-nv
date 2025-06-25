@@ -35,4 +35,4 @@
 - name: uninstall
   include_tasks: "tasks/{{ ansible_os_family | os_family_to_os_type }}-uninstall.yml"
   when: state|default('present') == 'absent'
-  
+
