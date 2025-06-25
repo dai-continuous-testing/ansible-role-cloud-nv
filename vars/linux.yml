@@ -2,7 +2,7 @@
 
 __installation_folder: "/opt/Experitest/NV/Server"
 
-temp_folder: "/tmp/experitest"
+temp_folder: "/var/tmp/Experitest"
 
 installer_file_name: "nvserver_unix_{{ nv_app_version }}.sh"
 

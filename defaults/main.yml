@@ -15,6 +15,7 @@ required_modifiable_fields:
 # app_name: "nvserver"
 __app_version: 25.3.915
 
+
 # service_name: "{{ app_name }}"
 # main_class: "com.experitest.manager.Application"
 

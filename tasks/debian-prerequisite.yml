@@ -8,7 +8,7 @@
     - rsync
     - unzip
 
-- name: Make sure AppArmor and UFW is not present
+- name: Make sure AppArmor and UFW are absent
   apt:
     name: "{{ item }}"
     state: absent
