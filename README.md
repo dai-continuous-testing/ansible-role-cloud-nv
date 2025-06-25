@@ -17,9 +17,10 @@ Role Variables
 | state | should the application be present or absent | present, absent, restarted | present | no |
 | app_version | application version to install | string | 12.12.197 | no |
 | server_port | port number for the server | number | 8888 | no |
+| extra_application_properties | additional props to be override in application.properties file | dict | {} | no |
 | proxy_port | port number for the server | number | 9200 | no |
 | tunneling_port | port number for the server | number | 9700 | no |
-| extra_java_options | extand java options | array of strings | [] | no |
+| extra_java_options | extend java options | array of strings | [] | no |
 | installation_folder | the folder in which the applction will be installed | string | /opt/Experitest/NV/Server | no |
 | custom_download_url | custom url to download the installation from (.sh file) | string |  | no |
 | reboot_after_install | should instance reboot after installation is completed | boolean | True | no |

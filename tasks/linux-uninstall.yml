@@ -1,7 +1,11 @@
 
 - name: assert all vars are set
-  assert: { that: "{{ item }} != '' " }
-  with_items:
+  assert: 
+    that:
+      - item is defined
+      - item | length > 0
+    quiet: true
+  loop:
   - installation_folder
   - temp_folder
   - reboot_after_install

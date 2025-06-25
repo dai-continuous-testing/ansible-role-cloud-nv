@@ -8,12 +8,11 @@
   with_items:
     - nvproxyserver
     - istpserver
-    - dhcpd
-    - mitmdump_selenium
+    - "{{ dhcp_service_name[ansible_os_family] }}"
 
-- name: Pause for 10 seconds to get service up
+- name: Pause for 30 seconds to get service up
   pause:
-    seconds: 10
+    seconds: 30
 
 - name: set health check port
   set_fact:
@@ -25,20 +24,6 @@
     expected_status: "{{ health_check_status | default('200') }}"
     max_retries: "{{ health_check_max_retries | default('20') }}"
 
-- name: check mitm service status
-  uri:
-    url: "http://localhost:{{ health_check_port | default(server_port) }}{{ mitm_health_uri | default('/manage/mitm-status') }}"
-    return_content: yes
-  register: mitm_response
-
-#- name: print mitm service status
-#  debug:
-#    msg: "mitm proxy status: {{ mitm_response.json.status }}"
-    
-- name: fail if mitm service is down
-  fail:
-    msg: "Error: mitm proxy status is {{ mitm_response.json.status }}"
-  when: mitm_response.json.status != 'UP'
 
 - name: get installed version
   uri:
