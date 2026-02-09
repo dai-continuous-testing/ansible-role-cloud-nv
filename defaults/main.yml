@@ -13,7 +13,7 @@ required_modifiable_fields:
   - mitm_port
 
 # app_name: "nvserver"
-__app_version: 25.3.915
+__app_version: 26.1.1001
 
 
 # service_name: "{{ app_name }}"
