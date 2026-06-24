@@ -26,7 +26,35 @@ __tunneling_port: 9700
 __mitm_port: 12121
 mitm_use_certificate: False
 
+# OpenTelemetry Configuration
+otel_enabled: false
+otel_version: "2.23.0"
+otel_download_url: "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v{{ otel_version }}/opentelemetry-javaagent.jar"
+otel_jar_name: "opentelemetry-javaagent.jar"
+otel_jar_full_path: "{{ installation_folder }}/otel/{{ otel_jar_name }}"
+
+otel_service_name: "nvserver"
+otel_environment: "prod"
+otel_namespace: "daict"
+otel_customer: "default"
+otel_alloy_endpoint: "http://{{ otel_alloy_host }}:{{ otel_alloy_port }}"
+otel_alloy_host: "localhost"
+otel_alloy_port: 4317
+
+otel_java_options:
+  - "-javaagent:{{ otel_jar_full_path }}"
+  - "-Dotel.service.name={{ otel_service_name }}"
+  - "-Dotel.resource.attributes=deployment.environment={{ otel_environment }},service.namespace={{ otel_namespace }},customer={{ otel_customer }}"
+  - "-Dotel.exporter.otlp.endpoint={{ otel_alloy_endpoint }}"
+  - "-Dotel.exporter.otlp.protocol=grpc"
+  - "-Dotel.metrics.exporter=otlp"
+  - "-Dotel.logs.exporter=otlp"
+
+# Keep user-provided extra JVM options separate from OTEL options
 extra_java_options: []
+
+# Add OTEL options only when enabled
+enabled_otel_java_options: "{{ otel_java_options if otel_enabled else [] }}"
 
 ## get the interface name from nv server
 

@@ -81,7 +81,7 @@
     path: "{{ installation_folder }}/nvproxyserver.vmoptions"
     line: "{{ item }}"
     regexp: "^{{ item.split('=') | first }}"
-  with_items: "{{ extra_java_options }}"      
+  with_items: "{{ extra_java_options + enabled_otel_java_options }}"
   become: yes
 
 # reset pairing key
