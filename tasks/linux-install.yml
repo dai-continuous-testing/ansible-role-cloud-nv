@@ -54,3 +54,19 @@
     dest: "{{ temp_folder }}/{{ installer_file_name }}"
     timeout: "{{ download_timeout | default(60) }}"
   when: custom_download_url != ""
+
+- name: Create directory for OTEL jar
+  file:
+    path: "{{ installation_folder }}/otel"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+  become: yes
+  when: otel_enabled | bool
+
+- name: Download OpenTelemetry Java agent jar
+  get_url:
+    url: "{{ otel_download_url }}"
+    dest: "{{ otel_jar_full_path }}"
+    mode: '0644'
+    timeout: "{{ download_timeout | default(60) }}"
+  when: otel_enabled | bool
